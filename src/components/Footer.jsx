@@ -6,7 +6,7 @@ import footerImage from '../assets/imgs/image.png';
 
 const Footer = () => {
   return (
-    <footer className='bg-secondary mt-4 relative text-white flex flex-col justify-center items-center gap-8 p-6 bg-primary text-primary-foreground font-semibold w-full h-full'>
+    <footer className='mt-[400px] bg-secondary mt-4 relative text-white flex flex-col justify-center items-center gap-8 p-6 bg-primary text-primary-foreground font-semibold w-full h-full'>
       <img src={footerImage} 
         style={{
           height: "200px",

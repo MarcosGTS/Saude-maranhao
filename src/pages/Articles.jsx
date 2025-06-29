@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react'; // Importe useState e useEffect
 import { Carousel } from 'primereact/carousel';
-import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import Searchbar from '../components/Searchbar';
         
 
 export default function Articles() {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [value, setValue] = useState('');
 
     useEffect(() => {
         const fetchArticles = async () => {
@@ -44,7 +42,7 @@ export default function Articles() {
                 <p className="m-0 text-[14px]">
                     {article.body.substring(0, 100)}...
                 </p>
-                <Button className='bg-tertiary'>Leia mais</Button>
+                <Button style={{backgroundColor: 'var(--tertiary)'}} label='Leia mais'/>
             </div> 
         );
     }
@@ -53,11 +51,7 @@ export default function Articles() {
         <>
             <h1 className='mx-auto mt-[100px] text-center text-5xl font-bold'>Artigos & Revistas</h1>
             <p className='mx-auto mt-[16px] text-primary text-center text-3xl font-medium max-w-[660px]'>Aqui você terá acesso a artigos sobre saúde em geral!</p>
-            <div className='mx-auto max-w-[950px] my-[130px] flex gap-4 justify-center'>
-                <InputText className="grow-9"value={value} placeholder="Palavras-chave (ex: dengue, malefícios, prevenção)"
-                onChange={(e) => setValue(e.target.value)} />
-                <Button className="grow-1" label="Buscar" icon='pi pi-search'/>
-            </div>
+            <Searchbar containerClassName='my-[130px] '/>
             <div className='mx-auto min-h-[475px] mb-[300px] max-w-[1200px] flex items-center justify-center'>
                 {loading ? (
                     <ProgressSpinner className='mx-auto'/>
