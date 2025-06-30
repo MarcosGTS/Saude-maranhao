@@ -1,4 +1,6 @@
 import { Button } from "primereact/button";
+import { Link } from "react-router-dom";
+
 import HomeHero from '../assets/imgs/home_hero.png';
 import HeartIcon from '../assets/icons/heartIcon.png';
 import DashboardIcon from '../assets/icons/dashboardIcon.png';
@@ -16,8 +18,12 @@ export default function Home() {
             indicadores de súde e acesse conteúdo sobre doenças e cuidados preventivos para você e sua família.
           </p>
           <div className="flex gap-4">
-            <Button style={{backgroundColor: "var(--tertiary)"}} label="Dashboard"/>
+            <Link to="/dashboard">
+              <Button style={{backgroundColor: "var(--tertiary)"}} label="Dashboard"/>
+            </Link>
+            <Link to="/consultas">
             <Button style={{color: "var(--tertiary)", borderColor: "var(--tertiary)"}} outlined label="Consultas"/>
+            </Link>
           </div>
         </div>
         <div className="grow-1">
