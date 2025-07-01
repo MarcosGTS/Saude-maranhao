@@ -54,7 +54,7 @@ export default function Articles() {
             <Searchbar containerClassName='my-[130px] '/>
             <div className='mx-auto min-h-[475px] mb-[300px] max-w-[1200px] flex items-center justify-center'>
                 {loading ? (
-                    <ProgressSpinner className='mx-auto'/>
+                    <ProgressSpinner/>
                 ) : (
                     articles.length > 0 ? (
                         <Carousel value={articles} numScroll={1} numVisible={3} itemTemplate={cardTemplate} />
