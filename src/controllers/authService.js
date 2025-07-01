@@ -2,14 +2,6 @@
 const { auth } = require('../config/firebase'); // 'auth' agora vem do Admin SDK
 const { createUserProfile, getUserProfile, deleteUserProfile } = require('../models/User');
 
-/**
- * Cria um novo usuário no Firebase Authentication.
- * Também cria um perfil de usuário correspondente no Firestore.
- * @param {string} email - O email do usuário.
- * @param {string} password - A senha do usuário.
- * @param {string} displayName - O nome de exibição inicial do usuário.
- * @returns {Promise<admin.auth.UserRecord>} O objeto do usuário criado.
- */
 async function createUser(email, password, displayName) {
   try {
     const userRecord = await auth.createUser({
@@ -28,12 +20,6 @@ async function createUser(email, password, displayName) {
   }
 }
 
-/**
- * Exclui um usuário do Firebase Authentication.
- * Também exclui o perfil de usuário correspondente no Firestore.
- * @param {string} uid - O ID único do usuário a ser excluído.
- * @returns {Promise<void>}
- */
 async function deleteUser(uid) {
   try {
     await auth.deleteUser(uid);
@@ -46,26 +32,13 @@ async function deleteUser(uid) {
   }
 }
 
-/**
- * Define funções personalizadas (custom claims) para um usuário.
- * Isso permite que você defina papéis para o usuário que podem ser verificados em regras de segurança do Firebase.
- * @param {string} uid - O ID do usuário.
- * @param {string[]} roles - Um array de strings representando as funções.
- * @returns {Promise<void>}
- */
 async function setUserRoles(uid, roles) {
   try {
     await auth.setCustomUserClaims(uid, { roles });
-    // Atualiza também no perfil do Firestore para fácil consulta
     await getUserProfile(uid).then(profile => {
       if (profile) {
         profile.roles = roles;
-        // Não chame updateUserProfile aqui, para evitar um loop ou conflito.
-        // As claims são o que importa para as regras de segurança e tokens.
-        // O perfil no Firestore serve mais para exibir informações no app.
-        // Se precisar sincronizar o perfil no Firestore, faça-o de forma independente.
-        // Por exemplo, você pode usar uma Cloud Function para sincronizar claims com o perfil.
-      }
+     }
     });
 
     console.log(`Funções ${roles.join(', ')} definidas para o usuário ${uid}`);
@@ -75,11 +48,6 @@ async function setUserRoles(uid, roles) {
   }
 }
 
-/**
- * Obtém um usuário pelo UID do Firebase Authentication.
- * @param {string} uid - O ID do usuário.
- * @returns {Promise<admin.auth.UserRecord>} O objeto do usuário.
- */
 async function getUserByUid(uid) {
   try {
     return await auth.getUser(uid);
@@ -89,11 +57,6 @@ async function getUserByUid(uid) {
   }
 }
 
-/**
- * Verifica se um token de ID do Firebase é válido e decodifica-o.
- * @param {string} idToken - O token de ID recebido do cliente.
- * @returns {Promise<admin.auth.DecodedIdToken>} O token decodificado.
- */
 async function verifyIdToken(idToken) {
   try {
     return await auth.verifyIdToken(idToken);

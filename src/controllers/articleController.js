@@ -1,11 +1,6 @@
 // controllers/articleController.js
 const Article = require('../models/Article');
 
-/**
- * Obtém todos os artigos.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function getArticles(req, res) {
   try {
     const articles = await Article.getArticles();
@@ -20,11 +15,6 @@ async function getArticles(req, res) {
   }
 }
 
-/**
- * Obtém um artigo por ID.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function getArticleById(req, res) {
   const { id } = req.params; // Assume que o ID do artigo vem dos parâmetros da URL
   try {
@@ -43,11 +33,6 @@ async function getArticleById(req, res) {
   }
 }
 
-/**
- * Cria um novo artigo.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function createArticle(req, res) {
   console.log("criando artigo");
   const { title, body, tags } = req.body;
@@ -67,14 +52,9 @@ async function createArticle(req, res) {
   }
 }
 
-/**
- * Atualiza um artigo existente.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function updateArticle(req, res) {
-  const { id } = req.params; // Assume que o ID do artigo vem dos parâmetros da URL
-  const updates = req.body; // Os campos a serem atualizados vêm do corpo da requisição
+  const { id } = req.params;
+  const updates = req.body;
   try {
     const articleExists = await Article.getArticleById(id);
     if (!articleExists) {
@@ -91,13 +71,8 @@ async function updateArticle(req, res) {
   }
 }
 
-/**
- * Exclui um artigo.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function deleteArticle(req, res) {
-  const { id } = req.params; // Assume que o ID do artigo vem dos parâmetros da URL
+  const { id } = req.params;
   try {
     const articleExists = await Article.getArticleById(id);
     if (!articleExists) {

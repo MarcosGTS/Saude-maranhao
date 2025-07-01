@@ -1,11 +1,6 @@
 // controllers/diseaseController.js
 const Disease = require('../models/Disease');
 
-/**
- * Obtém todas as doenças.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function getDiseases(req, res) {
   try {
     const diseases = await Disease.getDiseases();
@@ -20,11 +15,6 @@ async function getDiseases(req, res) {
   }
 }
 
-/**
- * Obtém uma doença por ID.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function getDiseaseById(req, res) {
   const { id } = req.params; // Assume que o ID da doença vem dos parâmetros da URL
   try {
@@ -43,11 +33,6 @@ async function getDiseaseById(req, res) {
   }
 }
 
-/**
- * Cria um novo registro de doença.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function createDisease(req, res) {
   const { sintomas, nomeDoenca, faixaEtaria, recomendacoes } = req.body;
   try {
@@ -66,14 +51,10 @@ async function createDisease(req, res) {
   }
 }
 
-/**
- * Atualiza um registro de doença existente.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function updateDisease(req, res) {
-  const { id } = req.params; // Assume que o ID da doença vem dos parâmetros da URL
-  const updates = req.body; // Os campos a serem atualizados vêm do corpo da requisição
+  const { id } = req.params;
+  const updates = req.body;
+
   try {
     const diseaseExists = await Disease.getDiseaseById(id);
     if (!diseaseExists) {
@@ -90,13 +71,9 @@ async function updateDisease(req, res) {
   }
 }
 
-/**
- * Exclui um registro de doença.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function deleteDisease(req, res) {
-  const { id } = req.params; // Assume que o ID da doença vem dos parâmetros da URL
+  const { id } = req.params;
+
   try {
     const diseaseExists = await Disease.getDiseaseById(id);
     if (!diseaseExists) {

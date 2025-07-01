@@ -1,7 +1,7 @@
 const Hospital = require('../models/Hospital');
 
 async function getHospital(req, res) {
-  const { id } = req.params; // Assume que o UID do usuário vem dos parâmetros da URL
+  const { id } = req.params;
   try {
     const hospital = await Hospital.getHospital(id);
     if (!hospital) {

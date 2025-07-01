@@ -1,14 +1,8 @@
-// controllers/userController.js
 const User = require('../models/User');
-const authService = require('./authService'); // Para operações de usuário do Admin SDK (ex: definir claims)
+const authService = require('./authService');
 
-/**
- * Obtém o perfil de um usuário por UID.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function getUserProfile(req, res) {
-  const { uid } = req.params; // Assume que o UID do usuário vem dos parâmetros da URL
+  const { uid } = req.params;
   try {
     const userProfile = await User.getUserProfile(uid);
     if (!userProfile) {
@@ -25,21 +19,29 @@ async function getUserProfile(req, res) {
   }
 }
 
-/**
- * Atualiza o perfil de um usuário existente.
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
+async function getAllUserProfiles(req, res) {
+  try {
+    const users = await User.getAllUserProfiles();
+    res.json({
+      success: true,
+      message: `Perfis recuperados com sucesso!`,
+      data: users,
+    });
+  } catch (err) {
+    console.error(`Erro ao recuperar os Perfis`, err);
+    res.status(500).send(`Algo de errado aconteceu ao recuperar os Perfis`);
+  }
+}
+
 async function updateUserProfile(req, res) {
-  const { uid } = req.params; // Assume que o UID do usuário vem dos parâmetros da URL
-  const updates = req.body; // Os campos a serem atualizados vêm do corpo da requisição
+  const { uid } = req.params;
+  const updates = req.body;
   try {
     const userExists = await User.getUserProfile(uid);
     if (!userExists) {
       return res.status(404).json({ success: false, message: 'Perfil de usuário não encontrado para atualização.' });
     }
 
-    // Se as roles estão sendo atualizadas, também atualize as custom claims do Firebase Auth
     if (updates.roles && Array.isArray(updates.roles)) {
       await authService.setUserRoles(uid, updates.roles);
     }
@@ -55,16 +57,9 @@ async function updateUserProfile(req, res) {
   }
 }
 
-/**
- * Exclui um usuário (incluindo perfil do Firestore e registro no Firebase Auth).
- * @param {Object} req - Objeto de requisição do Express.
- * @param {Object} res - Objeto de resposta do Express.
- */
 async function deleteUser(req, res) {
-  const { uid } = req.params; // Assume que o UID do usuário vem dos parâmetros da URL
+  const { uid } = req.params;
   try {
-    // A função deleteUser do authService já lida com a exclusão do Firebase Auth
-    // e com a exclusão do perfil do Firestore via o modelo User.
     await authService.deleteUser(uid);
     res.json({
       success: true,
@@ -76,12 +71,9 @@ async function deleteUser(req, res) {
   }
 }
 
-// Nota: A criação de usuários é feita através da rota de registro (authService.createUser)
-// e não é exposta diretamente como um `create` aqui no userController,
-// pois está ligada ao processo de autenticação.
-
 module.exports = {
   getUserProfile,
+  getAllUserProfiles,
   updateUserProfile,
   deleteUser,
 };

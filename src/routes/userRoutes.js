@@ -6,6 +6,7 @@ const { authenticateToken, checkRoleMiddleware } = require('../utils/permissions
 
 // Middleware para todas as rotas de usuário que exigem autenticação
 // router.use(authenticateToken);
+router.get('/users', userController.getAllUserProfiles);
 router.get('/users/:uid', userController.getUserProfile);
 router.put('/users/:uid', userController.updateUserProfile); // A lógica de "próprio perfil" ou permissão de admin deve ser implementada dentro do controller
 router.delete('/users/:uid', checkRoleMiddleware(['admin']), userController.deleteUser);
