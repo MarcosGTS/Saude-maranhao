@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from "../contexts/AuthContext";
 import { logout } from "../services/authService"; // ou diretamente do firebase
 import { useNavigate } from "react-router-dom";
+import HiddenMenu from "./HiddenMenu";
 
 const Header = () => {
   const { user, loading } = useAuth();
@@ -27,9 +28,10 @@ const Header = () => {
           <Link to="/consultas">Consultas</Link>
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/artigos">Artigos</Link>
-          <button className='bg-tertiary hover:bg-primary text-background py-2 px-6 rounded-md' onClick={handleLogout}>
+          {/* <button className='bg-tertiary hover:bg-primary text-background py-2 px-6 rounded-md' onClick={handleLogout}>
             Sair
-          </button>
+          </button> */}
+          <HiddenMenu/>
         </>) : (
           <Link to="/login" className='bg-tertiary hover:bg-primary text-background py-2 px-6 rounded-md'>Entrar</Link>
         )}
