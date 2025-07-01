@@ -4,16 +4,9 @@ import Github from '../assets/icons/github.svg';
 import Email from '../assets/icons/email.svg';
 import footerImage from '../assets/imgs/image.png';
 
-const Footer = () => {
+const FooterSecond = () => {
   return (
-    <footer className='mt-[200px] bg-secondary mt-4 relative text-white flex flex-col justify-center items-center gap-8 p-6 bg-primary text-primary-foreground font-semibold w-full h-full'>
-      <img src={footerImage} 
-        style={{
-          height: "200px",
-          width: "100%",
-          position: 'absolute',
-          top: "-199px",
-        }}/>
+    <footer className='bg-secondary relative text-white flex flex-col justify-center items-center gap-8 p-6 bg-primary text-primary-foreground font-semibold w-full h-full'>
       <img className='flex justify-center items-center' src={Logo2} alt="logo" />
       <nav className='w-full flex justify-center items-center gap-6'>
         <a href="">Início</a>
@@ -32,4 +25,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default FooterSecond;

@@ -3,7 +3,7 @@ import { Carousel } from 'primereact/carousel';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import Searchbar from '../components/Searchbar';
-        
+import Footer from '../components/Footer';  
 
 export default function Articles() {
     const [articles, setArticles] = useState([]);
@@ -63,6 +63,7 @@ export default function Articles() {
                     )
                 )}
             </div>
+            <Footer/>
         </>
     );
 }

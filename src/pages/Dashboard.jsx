@@ -1,5 +1,6 @@
 import DashboardHero from '../assets/imgs/dashboard_hero.png';
 import DashboardChart from '../components/DashboardChart';
+import Footer from '../components/Footer';
 
 export default function Home() {
   return (<>
@@ -50,5 +51,6 @@ export default function Home() {
         </div>
       </section>
     </div>
+    <Footer/>
   </>);
 }

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import MedicoImage from '../assets/imgs/medico-ilustracao.png';
 import Searchbar from '../components/Searchbar';
 import LocalizationIcon from '../assets/icons/localizationIcon.png';
+import Footer from '../components/Footer';
 
 const Consultas = () => {
   const [cep, setCep] = useState('');
@@ -97,6 +98,7 @@ const Consultas = () => {
           ))}
       </div>
     </div>
+    <Footer/>
   </>);
 };
 

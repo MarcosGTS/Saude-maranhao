@@ -9,16 +9,15 @@ export default function App() {
     <AuthProvider>
       <div>
         <Topbar />
-        <div className="min-h-160">
           <img src={blob1} style={{
             position: 'absolute', 
             top: "0px",
             right: "0px",
             zIndex: "-10",
           }}></img>
-          <Outlet />
-        </div>
-        <Footer/>
+          <div className="min-h-160">
+            <Outlet />
+          </div>
       </div>
     </AuthProvider>
   );

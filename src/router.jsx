@@ -8,6 +8,11 @@ import Consultation from "./pages/Consultation";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/login/page";
 import Signup from "./pages/signup/page";
+import Admin from "./pages/perfil/Admin";
+import AdminArtigos from "./pages/perfil/Artigos";
+import AdminArtigosCreate from "./pages/perfil/ArtigosCreate";
+import AdminUsers from "./pages/perfil/Users";
+import AdminUsersCreate from "./pages/perfil/UsersCreate";
 import RedifinirSenha from "./pages/redefinirSenha/page";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -41,6 +46,46 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Dashboard/>
+          </PrivateRoute>
+        )
+      },
+      { 
+        path: "admin", 
+        element: (
+          <PrivateRoute>
+            <Admin/>
+          </PrivateRoute>
+        )
+      },
+      { 
+        path: "admin/artigos", 
+        element: (
+          <PrivateRoute>
+            <AdminArtigos/>
+          </PrivateRoute>
+        )
+      },
+      { 
+        path: "admin/artigos/create", 
+        element: (
+          <PrivateRoute>
+            <AdminArtigosCreate/>
+          </PrivateRoute>
+        )
+      },
+      { 
+        path: "admin/users", 
+        element: (
+          <PrivateRoute>
+            <AdminUsers/>
+          </PrivateRoute>
+        )
+      },
+      { 
+        path: "admin/users/create", 
+        element: (
+          <PrivateRoute>
+            <AdminUsersCreate/>
           </PrivateRoute>
         )
       },

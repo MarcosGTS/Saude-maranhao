@@ -6,6 +6,7 @@ import HeartIcon from '../assets/icons/heartIcon.png';
 import DashboardIcon from '../assets/icons/dashboardIcon.png';
 import ArticleIcon from '../assets/icons/articleIcon.png';
 import HomeCard from "../components/HomeCard";
+import Footer from "../components/Footer";
 
 export default function Home() {
   return (<>
@@ -63,5 +64,6 @@ export default function Home() {
         </p>
       </section>
     </div>
+    <Footer/>
   </>);
 }
