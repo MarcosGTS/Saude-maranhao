@@ -9,14 +9,7 @@ import FooterSecond from "../../components/FooterSecond";
 export default function Admin() {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    const [products, setProducts] = useState([
-        { code: 'P001', name: 'Notebook', category: 'Eletrônicos', quantity: 10 },
-        { code: 'P002', name: 'Cadeira', category: 'Móveis', quantity: 5 },
-        { code: 'P003', name: 'Caneta', category: 'Papelaria', quantity: 100 },
-        { code: 'P004', name: 'Mouse', category: 'Eletrônicos', quantity: 20 },
-    ]);
-
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         const fetchArticles = async () => {
@@ -71,11 +64,11 @@ export default function Admin() {
                 <div className=" text-primary flex justify-between">
                     <div className="p-4 w-[240px] min-h-[110px] border border-primary rounded-lg">
                         <h4 className="mb-2 font-medium">Total Artigos</h4>
-                        <p className="text-[24px] font-bold">35</p>
+                        <p className="text-[24px] font-bold">{articles.length}</p>
                     </div>
                     <div className="p-4 w-[240px] min-h-[110px] border border-primary rounded-lg">
                         <h4 className="mb-2 font-medium">Total Usuários</h4>
-                        <p className="text-[24px] font-bold">12</p>
+                        <p className="text-[24px] font-bold">{users.length}</p>
                     </div>
                 </div>
                 <div>
@@ -90,7 +83,7 @@ export default function Admin() {
                             articles.length > 0 ? (
                                 <Carousel value={articles} numScroll={1} numVisible={3} itemTemplate={cardTemplate} />
                             ) : (
-                                <p className="text-white text-center p-4">Nenhum artigo encontrado.</p> // Mensagem se não houver artigos
+                                <p className="text-white text-center p-4">Nenhum artigo encontrado.</p>
                             )
                         )}
                     </div>
@@ -100,7 +93,7 @@ export default function Admin() {
                         <h3 className='text-[20px] text-primary font-bold'>Gerenciar Usuários</h3>
                         <Link to="/admin/users/create" className='p-2 border-2 border-primary text-primary font-bold rounded-md'>+ Adicionar</Link>
                     </div>
-                    <DataTable/>
+                    <DataTable onDataFetched={setUsers}/>
                 </div>
             </div>
         </div>

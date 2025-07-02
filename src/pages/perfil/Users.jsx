@@ -9,19 +9,49 @@ import FooterSecond from "../../components/FooterSecond";
 import binIcon from "../../assets/icons/bin.png";
 
 export default function Admin() {
-    const [users , setProducts] = useState([
-        {name: "teste", role: (<Dropdown/>), action: (<Button label='Excluir' icon="pi pi-trash" />)},
-        {name: "teste", role: (<Dropdown/>), action: (<Button label='Excluir' icon="pi pi-trash" />)},
-        {name: "teste", role: (<Dropdown/>), action: (<Button label='Excluir' icon="pi pi-trash" />)},
-        {name: "teste", role: (<Dropdown/>), action: (<Button label='Excluir' icon="pi pi-trash" />)},
-        {name: "teste", role: (<Dropdown/>), action: (<Button label='Excluir' icon="pi pi-trash" />)},
-    ]);
+    const [users , setUsers] = useState([]);
 
     const columns = [
         {field: 'name', header: 'Nome'},
         {field: 'role', header: 'Função'},
         {field: 'action', header: 'Ação'},
     ];
+
+    const roles = [
+        {label: "Administrador", value: "admin"},
+        {label: "Publicador", value: "publi"},
+        {label: "Usuário", value: "user"},
+    ];
+
+    useEffect(() => {
+        const fetchUsers= async () => {
+            try {
+                // Substitua esta URL pela sua URL da API real
+                const response = await fetch('https://saude-maranhao.onrender.com/users'); 
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                const result = data.data.map(user => {
+                    return {
+                        name: user.displayName, 
+                        role: (<Dropdown style={{width: "100%"}}  value={user.roles[0]} options={roles}/>), 
+                        action: (<Button style={{backgroundColor: "var(--primary)" }} label='Excluir' icon="pi pi-trash" />)
+                    };
+                });
+
+                setUsers(result);
+                
+            } catch (error) {
+                console.error("Erro ao buscar artigos:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUsers()
+    }, [])
 
     return (<>
         <div className="mx-auto w-full max-w-[1200px] min-h-160 flex items-stretch">

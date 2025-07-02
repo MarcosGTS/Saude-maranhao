@@ -1,36 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
-export default function SimpleDataTable() {
-    const [products] = useState([
-        { code: 'P001', name: 'Notebook', category: 'Eletrônicos', quantity: 10 },
-        { code: 'P002', name: 'Cadeira', category: 'Móveis', quantity: 5 },
-        { code: 'P003', name: 'Caneta', category: 'Papelaria', quantity: 100 },
-        { code: 'P004', name: 'Mouse', category: 'Eletrônicos', quantity: 20 },
-        { code: 'P004', name: 'Mouse', category: 'Eletrônicos', quantity: 20 },
-        { code: 'P004', name: 'Mouse', category: 'Eletrônicos', quantity: 20 },
-        { code: 'P004', name: 'Mouse', category: 'Eletrônicos', quantity: 20 },
-        { code: 'P004', name: 'Mouse', category: 'Eletrônicos', quantity: 20 },
-        { code: 'P004', name: 'Mouse', category: 'Eletrônicos', quantity: 20 },
-        { code: 'P004', name: 'Mouse', category: 'Eletrônicos', quantity: 20 },
-        { code: 'P004', name: 'Mouse', category: 'Eletrônicos', quantity: 20 },
-    ]);
+export default function SimpleDataTable({onDataFetched}) {
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const columns = [
-        { field: 'code', header: 'Code' },
-        { field: 'name', header: 'Name' },
-        { field: 'category', header: 'Category' },
-        { field: 'quantity', header: 'Quantity' }
+        { field: 'displayName', header: 'Nome' },
+        { field: 'email', header: 'Email' },
+        { field: 'roles', header: 'Função' },
     ];
 
-    return (
-        <div className='card shadow-[#000] shadow-lg/32'>
-            <DataTable value={products} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ width: '100%' }}>
-                {columns.map((col) => (
-                    <Column key={col.field} field={col.field} header={col.header} />
-                ))}
-            </DataTable>
-        </div>
+    useEffect(() => {
+        const fetchUsers= async () => {
+            try {
+                // Substitua esta URL pela sua URL da API real
+                const response = await fetch('https://saude-maranhao.onrender.com/users'); 
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                setUsers(data.data);
+                if (onDataFetched) onDataFetched(data.data);
+
+            } catch (error) {
+                console.error("Erro ao buscar artigos:", error);
+                // Você pode adicionar um estado para exibir uma mensagem de erro na UI
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUsers()
+    }, [])
+
+    return (<>
+        {loading ? (
+            <div className='w-full flex justify-center items-center'>
+                <ProgressSpinner/>
+            </div>
+        ): 
+        (
+            <div className='card shadow-[#000] shadow-lg/32'>
+                <DataTable value={users} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ width: '100%' }}>
+                    {columns.map((col) => (
+                        <Column key={col.field} field={col.field} header={col.header} />
+                    ))}
+                </DataTable>
+            </div>
+        )}
+    </>
     );
 }
