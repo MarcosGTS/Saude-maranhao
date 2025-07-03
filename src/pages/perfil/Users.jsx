@@ -3,13 +3,22 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 
 import { Link } from "react-router-dom";
 import FooterSecond from "../../components/FooterSecond";
-import binIcon from "../../assets/icons/bin.png";
+import { auth } from "../../lib/firebase";
+
 
 export default function Admin() {
+    const loggedUser = auth.currentUser;
     const [users , setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [visible,setVisible] = useState(false);
+    const [response, setResponse] = useState({
+        success: false,
+        message: '',
+    });
 
     const columns = [
         {field: 'name', header: 'Nome'},
@@ -22,6 +31,33 @@ export default function Admin() {
         {label: "Publicador", value: "publi"},
         {label: "Usuário", value: "user"},
     ];
+
+    async function deleteUser(userId) {
+        try {
+            const token = await loggedUser.getIdToken();
+            console.log(token);
+            const response = await fetch(`https://saude-maranhao.onrender.com/users/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            }); 
+
+            const data = await response.json();
+            setVisible(true)
+            setResponse({
+                success: data.success,
+                message: data.message
+            });
+
+        } catch (error) {
+            console.error("Erro ao buscar artigos:", error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
 
     useEffect(() => {
         const fetchUsers= async () => {
@@ -37,7 +73,9 @@ export default function Admin() {
                     return {
                         name: user.displayName, 
                         role: (<Dropdown style={{width: "100%"}}  value={user.roles[0]} options={roles}/>), 
-                        action: (<Button style={{backgroundColor: "var(--primary)" }} label='Excluir' icon="pi pi-trash" />)
+                        action: (<Button style={{backgroundColor: "var(--primary)" }} label='Excluir' icon="pi pi-trash" 
+                            onClick={() => deleteUser(user.id)}
+                        />)
                     };
                 });
 
@@ -81,5 +119,21 @@ export default function Admin() {
             </div>
         </div>
         <FooterSecond/>
+        <Dialog
+            visible={visible}
+            modal
+            onHide={() => {if (!visible) return; setVisible(false); }}
+            style={{maxWidth: "400px", width: "90%"}}
+        >
+            <p className="mb-8">
+                {response.message}
+            </p>
+            <Button style={{width: "100%", backgroundColor: "var(--primary)"}} label="Confirmar" onClick={() => {
+                setVisible(false);
+                if (response.success) {
+                    navigate('/admin/users');
+                }
+            }}/>
+        </Dialog>
     </>)
 }
