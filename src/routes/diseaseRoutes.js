@@ -6,6 +6,7 @@ const { authenticateToken, checkRoleMiddleware } = require('../utils/permissions
 
 // Middleware para todas as rotas de doença que exigem autenticação
 // router.use(authenticateToken);
+router.use(express.json());
 router.get('/diseases/', diseaseController.getDiseases);
 router.get('/diseases/:id', diseaseController.getDiseaseById);
 router.post('/diseases/', diseaseController.createDisease);

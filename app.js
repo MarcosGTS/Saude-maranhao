@@ -8,8 +8,6 @@ app.use(cors({
   origin: process.env.origin || '*'
 }));
 
-app.use(express.json());
-
 const userRouter = require('./src/routes/userRoutes');
 const authRouter = require('./src/routes/authRoutes');
 const articleRouter = require('./src/routes/articleRoutes');

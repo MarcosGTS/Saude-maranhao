@@ -39,7 +39,7 @@ async function getArticleById(articleId) {
   }
 }
 
-async function createArticle({ title, body, tags }) {
+async function createArticle({ title, body, tags, banner}) {
   try {
     const reference = db.collection('tb_articles').doc();
 
@@ -47,6 +47,7 @@ async function createArticle({ title, body, tags }) {
       title,
       body,
       tags: tags || [],
+      banner,
       createdAt: admin.firestore.Timestamp.now(),
       updatedAt: admin.firestore.Timestamp.now(),
     });

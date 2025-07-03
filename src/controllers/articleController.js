@@ -1,4 +1,6 @@
 // controllers/articleController.js
+const { cloudinary } = require('../config/cloudinary');
+const fs = require('fs');
 const Article = require('../models/Article');
 
 async function getArticles(req, res) {
@@ -34,13 +36,22 @@ async function getArticleById(req, res) {
 }
 
 async function createArticle(req, res) {
-  console.log("criando artigo");
-  const { title, body, tags } = req.body;
   try {
-    if (!title || !body) {
-      return res.status(400).json({ success: false, message: 'Título e corpo do artigo são obrigatórios.' });
+    const { title, body, tags } = req.body;
+
+    if (!title || !body || !req.file) {
+      return res.status(400).json({ success: false, message: 'Título, corpo e banner são obrigatórios.' });
     }
-    const newArticleId = await Article.createArticle({ title, body, tags });
+
+    const filePath = req.file.path;
+    const result = await cloudinary.uploader.upload(filePath, {
+      folder: 'Saude_Maranhao',
+    });
+
+    fs.unlinkSync(filePath);
+
+    const newArticleId = await Article.createArticle({ title, body, tags, banner: result.secure_url});
+
     res.status(201).json({
       success: true,
       message: 'Artigo registrado com sucesso!',
