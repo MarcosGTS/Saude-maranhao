@@ -8,8 +8,8 @@ const { authenticateToken, checkRoleMiddleware } = require('../utils/permissions
 // router.use(authenticateToken);
 router.get('/diseases/', diseaseController.getDiseases);
 router.get('/diseases/:id', diseaseController.getDiseaseById);
-router.post('/diseases/', checkRoleMiddleware(['admin', 'editor']), diseaseController.createDisease);
-router.put('/diseases/:id', checkRoleMiddleware(['admin', 'editor']), diseaseController.updateDisease);
-router.delete('/diseases/:id', checkRoleMiddleware(['admin']), diseaseController.deleteDisease);
+router.post('/diseases/', diseaseController.createDisease);
+router.put('/diseases/:id', diseaseController.updateDisease);
+router.delete('/diseases/:id', diseaseController.deleteDisease);
 
 module.exports = router;

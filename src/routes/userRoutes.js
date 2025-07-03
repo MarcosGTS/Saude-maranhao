@@ -9,7 +9,7 @@ const { authenticateToken, checkRoleMiddleware } = require('../utils/permissions
 router.get('/users', userController.getAllUserProfiles);
 router.get('/users/:uid', userController.getUserProfile);
 router.put('/users/:uid', userController.updateUserProfile); // A lógica de "próprio perfil" ou permissão de admin deve ser implementada dentro do controller
-router.delete('/users/:uid', checkRoleMiddleware(['admin']), userController.deleteUser);
+router.delete('/users/:uid', userController.deleteUser);
 router.post('/users/:uid/roles', checkRoleMiddleware(['admin']), async (req, res) => {
   const { uid } = req.params;
   const { roles } = req.body; // Espera-se um array de strings para as roles
