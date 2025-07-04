@@ -38,7 +38,7 @@ export default function Admin() {
         return (
             <div className="bg-white border border-slate-300 rounded-md flex flex-col gap-4 justify-between m-[16px] p-[24px] shadow-[#333] shadow-lg/20">
                 <div className='overflow-hidden w-full rounded-md'>
-                    <img src="src/assets/imgs/placeholder.png"/>
+                    <img src={article.banner || "src/assets/imgs/placeholder.png"}/>
                 </div>
                 <h4 className='text-[20px] font-medium'>{article.title}</h4>
                 <Button style={{backgroundColor: 'var(--tertiary)'}} label='Leia mais'/>
