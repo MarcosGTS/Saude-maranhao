@@ -8,7 +8,7 @@ const articleController = require('../controllers/articleController');
 
 // Multer config – save to local temporarily
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, __dirname + '../../../uploads/'),
+  destination: (req, file, cb) => cb(null, __dirname),
   filename: (req, file, cb) =>
     cb(null, Date.now() + path.extname(file.originalname)),
 });
