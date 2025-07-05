@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ProgressSpinner } from "primereact/progressspinner"; 
+import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
+
 import FooterSecond from "../../components/FooterSecond";
 import binIcon from "../../assets/icons/bin.png";
 import pencilIcon from "../../assets/icons/pencil.png";
@@ -9,6 +12,12 @@ export default function Artigos() {
 
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingModal, setLoadingModal] = useState(true);
+    const [visible, setVisible] = useState(false);
+    const [response, setResponse] = useState({
+        success: false,
+        message: "",
+    })
 
     useEffect(() => {
         const fetchArticles = async () => {
@@ -32,6 +41,28 @@ export default function Artigos() {
 
         fetchArticles();
     }, []);
+
+    async function deleteArticle(articleId) {
+        try {
+            setLoadingModal(true);
+            setVisible(true)
+
+            const response = await fetch(`https://saude-maranhao.onrender.com/articles/${articleId}`, {
+                method: 'DELETE',
+            }); 
+
+            const data = await response.json();
+            setResponse({
+                success: data.success,
+                message: data.message
+            });
+
+        } catch (error) {
+            console.error("Erro ao buscar artigos:", error);
+        } finally {
+            setLoadingModal(false);
+        }
+    }
 
     return (<>
         <div className="mx-auto w-full max-w-[1200px] min-h-160 flex items-stretch">
@@ -59,7 +90,7 @@ export default function Artigos() {
                     ) : (
                     articles.map((article, index) => {
                         return (
-                        <div className='mb-4'>
+                        <div className='mb-4' key={index}>
                             <div className='w-full bg-[#B9D1DD] py-6 px-8 rounded-lg text-primary flex justify-between'>
                                 <div>
                                     <h4 className='mb-2 text-[24px] font-bold'>{article.title}</h4>
@@ -71,7 +102,7 @@ export default function Artigos() {
                                 </div>
                                 <div className="flex gap-4 items-center">
                                     <button className="p-4 rounded-lg hover:bg-slate-400"><img className="w-[24px]" src={pencilIcon} alt="" /></button>
-                                    <button className="p-4 rounded-lg hover:bg-slate-400"><img className="w-[24px]" src={binIcon} alt="" /></button>
+                                    <button className="p-4 rounded-lg hover:bg-slate-400" onClick={() => deleteArticle(article.id)}><img className="w-[24px]" src={binIcon} alt="" /></button>
                                 </div>
                             </div>
                         </div>
@@ -82,5 +113,32 @@ export default function Artigos() {
             </div>
         </div>
         <FooterSecond/>
+        <Dialog
+            visible={visible}
+            modal
+            onHide={() => {if (!visible) return; setVisible(false); }}
+            style={{maxWidth: "400px", width: "90%"}}
+        >
+            {
+                loadingModal ?  
+                (
+                    <div className="w-full flex justify-center items-center">
+                        <ProgressSpinner/>
+                    </div>
+                ) : 
+                (
+                    <p className="mb-8">
+                        {response.message}
+                    </p>
+                )
+            }
+            
+            <Button style={{width: "100%", backgroundColor: "var(--primary)"}} label="Confirmar" onClick={() => {
+                setVisible(false);
+                if (response.success) {
+                    location.reload();
+                }
+            }}/>
+        </Dialog>
     </>)
 }

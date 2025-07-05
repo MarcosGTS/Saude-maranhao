@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { useNavigate } from "react-router-dom";
 
 import FooterSecond from "../../components/FooterSecond";
 
@@ -17,9 +20,13 @@ export default function Admin() {
         success: false,
         message: "",
     })
+    const navigate = useNavigate();
     
     async function createArticle() {
         try {
+            setVisible(true);
+            setLoading(true);
+
             const formData = new FormData();
             formData.append('title', title);
             formData.append('body', body);
@@ -29,10 +36,9 @@ export default function Admin() {
                 method: 'POST',
                 body: formData,
             }); 
-            console.log(response);
 
             const data = await response.json();
-            setVisible(true)
+            console.log(response, data);
             setResponse({
                 success: data.success,
                 message: data.message
@@ -71,7 +77,7 @@ export default function Admin() {
 
                     <div className="flex flex-col gap-2">
                         <label className='text-[20px] text-primary font-bold'>Imagem do Artigo</label>
-                        <input type="file" accept="images/*" onChange={(e) => setBanner(e.target.files[0])}/>
+                        <input className='cursor-pointer border-2 border-primary p-4 rounded-md text-white bg-primary hover:text-primary hover:bg-white' type="file" accept="images/*" onChange={(e) => setBanner(e.target.files[0])}/>
                     </div>
 
                     <div className="flex flex-col gap-2">
@@ -83,5 +89,32 @@ export default function Admin() {
             </div>
         </div>
         <FooterSecond/>
+        <Dialog
+            visible={visible}
+            modal
+            onHide={() => {if (!visible) return; setVisible(false); }}
+            style={{maxWidth: "400px", width: "90%"}}
+        >
+            {
+                loading ?  
+                (
+                    <div className="w-full flex justify-center items-center">
+                        <ProgressSpinner/>
+                    </div>
+                ) : 
+                (
+                    <p className="mb-8">
+                        {response.message}
+                    </p>
+                )
+            }
+            
+            <Button style={{width: "100%", backgroundColor: "var(--primary)"}} label="Confirmar" onClick={() => {
+                setVisible(false);
+                if (response.success) {
+                    navigate('/admin/artigos');
+                }
+            }}/>
+        </Dialog>
     </>)
 }

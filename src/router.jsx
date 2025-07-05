@@ -3,6 +3,7 @@ import App from "./App";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Articles from "./pages/Articles";
+import ArticleView from "./pages/ArticleView";
 import Dashboard from "./pages/Dashboard";
 import Consultation from "./pages/Consultation"; 
 import NotFound from "./pages/NotFound";
@@ -26,7 +27,7 @@ export const router = createBrowserRouter([
         element: <Home />
       },
       { 
-        path: "artigos", 
+        path: "/artigos", 
         element: (
           <PrivateRoute>
             <Articles /> 
@@ -34,7 +35,15 @@ export const router = createBrowserRouter([
         )
       },
       { 
-        path: "consultas", 
+        path: "/artigos/:articleId", 
+        element: (
+          <PrivateRoute>
+            <ArticleView/> 
+          </PrivateRoute>
+        )
+      },
+      { 
+        path: "/consultas", 
         element: ( 
           <PrivateRoute>
             <Consultation/>
@@ -42,7 +51,7 @@ export const router = createBrowserRouter([
         )
       },
       { 
-        path: "dashboard", 
+        path: "/dashboard", 
         element: (
           <PrivateRoute>
             <Dashboard/>
@@ -50,7 +59,7 @@ export const router = createBrowserRouter([
         )
       },
       { 
-        path: "admin", 
+        path: "/admin", 
         element: (
           <PrivateRoute>
             <Admin/>
@@ -58,7 +67,7 @@ export const router = createBrowserRouter([
         )
       },
       { 
-        path: "admin/artigos", 
+        path: "/admin/artigos", 
         element: (
           <PrivateRoute>
             <AdminArtigos/>
@@ -66,7 +75,7 @@ export const router = createBrowserRouter([
         )
       },
       { 
-        path: "admin/artigos/create", 
+        path: "/admin/artigos/create", 
         element: (
           <PrivateRoute>
             <AdminArtigosCreate/>
@@ -74,7 +83,7 @@ export const router = createBrowserRouter([
         )
       },
       { 
-        path: "admin/users", 
+        path: "/admin/users", 
         element: (
           <PrivateRoute>
             <AdminUsers/>
@@ -82,16 +91,16 @@ export const router = createBrowserRouter([
         )
       },
       { 
-        path: "admin/users/create", 
+        path: "/admin/users/create", 
         element: (
           <PrivateRoute>
             <AdminUsersCreate/>
           </PrivateRoute>
         )
       },
-      { path: "login", element: <Login/> },
-      { path: "signup", element: <Signup/> },
-      { path: "redefinir-senha", element: <RedifinirSenha/> },
+      { path: "/login", element: <Login/> },
+      { path: "/signup", element: <Signup/> },
+      { path: "/redefinir-senha", element: <RedifinirSenha/> },
       { path: "*", element: <NotFound /> },
     ],
   },

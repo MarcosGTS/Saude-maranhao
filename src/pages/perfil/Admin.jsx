@@ -37,11 +37,17 @@ export default function Admin() {
     const cardTemplate = (article) => {
         return (
             <div className="bg-white border border-slate-300 rounded-md flex flex-col gap-4 justify-between m-[16px] p-[24px] shadow-[#333] shadow-lg/20">
-                <div className='overflow-hidden w-full rounded-md'>
-                    <img src={article.banner || "src/assets/imgs/placeholder.png"}/>
+                <div className='overflow-hidden w-full h-[160px] rounded-md'>
+                    <img src={article.banner || "src/assets/imgs/placeholder.png"}
+                        className="w-full h-full object-cover"
+                        alt="Banner"
+                    />
                 </div>
+
                 <h4 className='text-[20px] font-medium'>{article.title}</h4>
-                <Button style={{backgroundColor: 'var(--tertiary)'}} label='Leia mais'/>
+                <Link to={`/artigos/${article.id}`}>
+                    <Button style={{width: "100%", backgroundColor: 'var(--tertiary)'}} label='Leia mais'/>
+                </Link>
             </div> 
         );
     }
@@ -76,12 +82,14 @@ export default function Admin() {
                         <h3 className='text-[20px] text-primary font-bold'>Gerenciar Artigos</h3>
                         <Link to="/admin/artigos/create" className='p-2 border-2 border-primary text-primary font-bold rounded-md'>+ Adicionar</Link>
                     </div>
-                    <div className='mx-auto min-h-[475px] max-w-[1200px] flex items-center justify-center'>
+                    <div className='mx-auto min-h-[475px] w-full'>
                         {loading ? (
-                            <ProgressSpinner className='mx-auto'/>
+                            <div className='w-full flex justify-center items-center'>
+                                <ProgressSpinner/>
+                            </div>
                         ) : (
                             articles.length > 0 ? (
-                                <Carousel value={articles} numScroll={1} numVisible={3} itemTemplate={cardTemplate} />
+                                <Carousel value={articles} numScroll={1} numVisible={2} itemTemplate={cardTemplate} />
                             ) : (
                                 <p className="text-white text-center p-4">Nenhum artigo encontrado.</p>
                             )
