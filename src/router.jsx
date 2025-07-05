@@ -29,17 +29,13 @@ export const router = createBrowserRouter([
       { 
         path: "/artigos", 
         element: (
-          <PrivateRoute>
-            <Articles /> 
-          </PrivateRoute>
+          <Articles /> 
         )
       },
       { 
         path: "/artigos/:articleId", 
         element: (
-          <PrivateRoute>
-            <ArticleView/> 
-          </PrivateRoute>
+          <ArticleView/> 
         )
       },
       { 

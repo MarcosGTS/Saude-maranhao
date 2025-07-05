@@ -24,13 +24,10 @@ const Header = () => {
       <img src={Logo1} alt="logo"/>
       <nav className='w-full text-sky-800 flex justify-end items-center gap-6 font-semibold'>
         <Link to="/">Início</Link>
+        <Link to="/artigos">Artigos</Link>
         {(!loading && user) ? (<>
           <Link to="/consultas">Consultas</Link>
           <Link to="/dashboard">Dashboard</Link>
-          <Link to="/artigos">Artigos</Link>
-          {/* <button className='bg-tertiary hover:bg-primary text-background py-2 px-6 rounded-md' onClick={handleLogout}>
-            Sair
-          </button> */}
           <HiddenMenu/>
         </>) : (
           <Link to="/login" className='bg-tertiary hover:bg-primary text-background py-2 px-6 rounded-md'>Entrar</Link>
